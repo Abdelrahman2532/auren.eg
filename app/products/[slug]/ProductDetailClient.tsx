@@ -36,11 +36,12 @@ export default function ProductDetailClient({ product, related }: Props) {
   const { addItem } = useCartStore();
 
   const variants = product.product_variants || [];
-  const sizes = Array.from(new Set(variants.map((v) => v.size));
+  const sizes = Array.from(new Set(variants.map((v) => v.size)));
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
-    addItem(product as unknown as Product, selectedVariant, quantity);
+    // cast to any to satisfy CartItem shape expected by addItem
+    addItem({ product: product as unknown as Product, variant: selectedVariant, quantity } as any);
   };
 
   const discount = product.compare_at_price
