@@ -27,7 +27,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative h-[58vh] md:h-screen min-h-[520px] md:min-h-[700px] overflow-hidden">
+    <section className="relative h-[35vh] md:h-screen min-h-[520px] md:min-h-[700px] overflow-hidden">
 
       {/* Background images */}
       {heroImages.map((src, i) => (
