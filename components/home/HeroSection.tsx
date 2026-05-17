@@ -68,12 +68,7 @@ export default function HeroSection() {
         }}
       >
 
-        {/* Label */}
-        <div className="mb-4 md:mb-6">
-          <span className="auren-label text-off-white/50 tracking-[0.3em] text-[11px] md:text-base">
-            Free shipping over 1800 L.E
-          </span>
-        </div>
+        
 
         {/* Main heading */}
         <h1 className="auren-heading text-off-white text-[clamp(34px,7vw,85px)] leading-[0.88] mb-6 md:mb-8 max-w-[900px]">
