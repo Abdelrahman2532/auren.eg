@@ -10,18 +10,18 @@ import CustomCursor from '@/components/layout/CustomCursor';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'AUREN — Defined by Silence',
+  title: 'AUREN — eg',
   description: 'Luxury streetwear for the modern individual. Premium garments built to last.',
   keywords: ['luxury streetwear', 'premium fashion', 'AUREN', 'minimal clothing'],
   openGraph: {
-    title: 'AUREN — Defined by Silence',
+    title: 'AUREN — eg',
     description: 'Luxury streetwear for the modern individual.',
     siteName: 'AUREN',
     images: [{ url: 'https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AUREN — Defined by Silence',
+    title: 'AUREN — eg',
     images: ['https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg'],
   },
 };
