@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -26,7 +27,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative h-screen min-h-[700px] overflow-hidden">
+    <section className="relative h-[65vh] md:h-screen min-h-[520px] md:min-h-[700px] overflow-hidden">
 
       {/* Background images */}
       {heroImages.map((src, i) => (
@@ -56,7 +57,7 @@ export default function HeroSection() {
 
       {/* Content */}
       <div
-        className="absolute inset-0 flex flex-col justify-end px-6 md:px-16 pb-16 md:pb-24"
+        className="absolute inset-0 flex flex-col justify-end px-6 md:px-16 pb-10 md:pb-24"
         style={{
           opacity: loaded ? 1 : 0,
           transform: loaded
@@ -68,14 +69,14 @@ export default function HeroSection() {
       >
 
         {/* Label */}
-        <div className="mb-6">
-          <span className="auren-label text-off-white/50 tracking-[0.3em]">
+        <div className="mb-4 md:mb-6">
+          <span className="auren-label text-off-white/50 tracking-[0.3em] text-[11px] md:text-base">
             Free shipping over 1800 L.E
           </span>
         </div>
 
         {/* Main heading */}
-        <h1 className="auren-heading text-off-white text-[clamp(36px,7vw,85px)] leading-[0.88] mb-8 max-w-[900px]">
+        <h1 className="auren-heading text-off-white text-[clamp(34px,7vw,85px)] leading-[0.88] mb-6 md:mb-8 max-w-[900px]">
           AUREN
           <br />
 
@@ -91,12 +92,12 @@ export default function HeroSection() {
         </h1>
 
         {/* CTA */}
-        <div className="flex flex-col items-start gap-3 mt-4">
+        <div className="flex flex-col items-start gap-3 mt-2 md:mt-4">
 
           {/* BUTTON */}
           <a
             href="#products"
-            className="group relative bg-off-white text-espresso px-10 py-4 auren-label overflow-hidden"
+            className="group relative bg-off-white text-espresso px-8 md:px-10 py-3 md:py-4 auren-label overflow-hidden"
           >
             <span className="relative z-10 flex items-center gap-3 transition-transform duration-300 group-hover:-translate-x-1">
               Shop Now
@@ -111,14 +112,14 @@ export default function HeroSection() {
           </a>
 
           {/* TEXT ONLY */}
-          <p className="auren-label text-off-white/50 tracking-[0.25em] uppercase">
+          <p className="auren-label text-off-white/50 tracking-[0.25em] uppercase text-[11px] md:text-base">
             Explore Collections
           </p>
 
         </div>
 
         {/* Bottom indicators */}
-        <div className="flex items-center gap-2 mt-12">
+        <div className="flex items-center gap-2 mt-8 md:mt-12">
 
           {heroImages.map((_, i) => (
             <button
@@ -148,7 +149,7 @@ export default function HeroSection() {
 
       {/* Scroll indicator */}
       <div
-        className="absolute bottom-8 right-8 md:right-16 flex flex-col items-center gap-2"
+        className="hidden md:flex absolute bottom-8 right-8 md:right-16 flex-col items-center gap-2"
         style={{
           opacity: loaded ? 1 : 0,
           transition: 'opacity 1s 0.5s ease',
@@ -165,3 +166,4 @@ export default function HeroSection() {
     </section>
   );
 }
+

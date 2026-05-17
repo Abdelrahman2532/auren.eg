@@ -46,7 +46,7 @@ export default function AboutPage() {
               Every garment is constructed from premium materials — heavyweight cottons, technical ripstops, brushed French terry — with an obsessive attention to proportion, weight, and finish. Nothing is accidental.
             </p>
             <p className="text-off-white/25 text-sm leading-relaxed">
-              We don't chase trends. We build permanence.
+              We don&apos;t chase trends. We build permanence.
             </p>
           </div>
         </div>
@@ -78,9 +78,9 @@ export default function AboutPage() {
         {/* Team quote */}
         <div className="text-center py-24">
           <blockquote className="auren-heading text-off-white/60 text-[clamp(24px,4vw,48px)] max-w-[700px] mx-auto">
-            "We don't make clothes for the crowd.
+            &quot;We don&apos;t make clothes for the crowd.
             <br />
-            <span className="text-off-white">We make them for the individual."</span>
+            <span className="text-off-white">We make them for the individual.&quot;</span>
           </blockquote>
           <p className="text-off-white/25 text-xs tracking-widest uppercase mt-6">— AUREN, 2024</p>
         </div>

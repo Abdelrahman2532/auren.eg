@@ -61,7 +61,7 @@ export default function ProductDetailClient({ product, related }: Props) {
         </div>
 
         {/* Main layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <div className="grid grid-cols-2 gap-4 lg:gap-16">
           {/* Left: images */}
           <div>
             {/* Main image */}
