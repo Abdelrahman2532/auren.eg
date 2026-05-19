@@ -14,17 +14,22 @@ type CartStore = {
 
   addItem: (item: CartItem) => void;
 
-removeItem: (id: string, size: string) => void;
+  removeItem: (
+    id: string,
+    size: string
+  ) => void;
+
   updateQuantity: (
     id: string,
     size: string,
     quantity: number
-
   ) => void;
 
   itemCount: () => number;
 
   total: () => number;
+
+  clearCart: () => void;
 
   isOpen: boolean;
 
@@ -72,17 +77,20 @@ export const useCartStore =
 
       }
     },
-removeItem: (id, size) => {
-  set({
-    items: get().items.filter(
-      (i) =>
-        !(
-          i.id === id &&
-          i.size === size
-        )
-    ),
-  });
-},
+
+    removeItem: (id, size) => {
+
+      set({
+        items: get().items.filter(
+          (i) =>
+            !(
+              i.id === id &&
+              i.size === size
+            )
+        ),
+      });
+
+    },
 
     updateQuantity: (
       productId,
@@ -92,7 +100,8 @@ removeItem: (id, size) => {
 
       set({
         items: get().items.map((item) =>
-          item.id === productId
+          item.id === productId &&
+          item.size === size
             ? {
                 ...item,
                 quantity,
@@ -115,11 +124,20 @@ removeItem: (id, size) => {
 
     total: () => {
 
-   return get().items.reduce(
-  (total, item) =>
-    total + item.price * item.quantity,
-  0
-);
+      return get().items.reduce(
+        (total, item) =>
+          total +
+          item.price * item.quantity,
+        0
+      );
+
+    },
+
+    clearCart: () => {
+
+      set({
+        items: [],
+      });
 
     },
 
@@ -129,4 +147,4 @@ removeItem: (id, size) => {
     closeCart: () =>
       set({ isOpen: false }),
 
-  }));  
+  }));

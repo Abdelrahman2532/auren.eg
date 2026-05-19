@@ -177,3 +177,26 @@
 .animate-marquee {
   animation: marquee 18s linear infinite;
 }
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  outline: none;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+.cursor,
+.cursor-dot,
+.cursor-outline {
+  display: none !important;
+}

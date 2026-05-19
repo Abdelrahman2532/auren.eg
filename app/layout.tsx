@@ -1,11 +1,11 @@
 import "../app/globals.css";
+import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import GrainOverlay from '@/components/layout/GrainOverlay';
 import LoadingScreen from '@/components/layout/LoadingScreen';
-import CustomCursor from '@/components/layout/CustomCursor';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,9 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className} style={{ backgroundColor: '#1A120E', color: '#F3EEE8' }}>
+       <Toaster richColors position="top-right" />
         <LoadingScreen />
         <GrainOverlay />
-        <CustomCursor />
         <Navbar />
         <main>{children}</main>
         <Footer />
