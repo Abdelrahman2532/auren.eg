@@ -3,7 +3,14 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, User, Menu, X, Shield } from 'lucide-react';
+import {
+  ShoppingBag,
+  User,
+  Menu,
+  X,
+  Shield,
+} from 'lucide-react';
+
 import { useCartStore } from '@/lib/cart-store';
 import CartDrawer from '@/components/cart/CartDrawer';
 import { checkAdmin } from '@/lib/isAdmin';
@@ -87,8 +94,28 @@ export default function Navbar() {
             <Menu size={20} />
           </button>
 
-          {/* EMPTY SPACE */}
-          <div className="hidden md:block w-[120px]" />
+          {/* LEFT SIDE */}
+          <div className="hidden md:flex items-center gap-4 w-[120px]">
+
+            {/* ADMIN BUTTON */}
+            {isAdmin && (
+
+              <Link
+                href="/admin"
+                className="flex items-center gap-2 border border-[#3b2a22] px-4 py-2 rounded-xl text-sm text-off-white/80 hover:text-off-white hover:bg-[#2a1d18] transition-all"
+              >
+
+                <Shield size={16} />
+
+                <span>
+                  Dashboard
+                </span>
+
+              </Link>
+
+            )}
+
+          </div>
 
           {/* LOGO */}
           <Link
@@ -100,18 +127,6 @@ export default function Navbar() {
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-6">
-
-            {/* ADMIN */}
-            {isAdmin && (
-
-              <Link
-                href="/admin"
-                className="text-off-white/70 hover:text-off-white transition-colors"
-              >
-                <Shield size={18} />
-              </Link>
-
-            )}
 
             {/* ACCOUNT */}
             <Link
@@ -177,10 +192,16 @@ export default function Navbar() {
 
               <Link
                 href="/admin"
-                className="text-off-white text-3xl font-bold tracking-tight hover:text-off-white/60 transition-colors"
+                className="flex items-center gap-3 text-off-white text-3xl font-bold tracking-tight hover:text-off-white/60 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
-                Admin
+
+                <Shield size={28} />
+
+                <span>
+                  Dashboard
+                </span>
+
               </Link>
 
             )}
