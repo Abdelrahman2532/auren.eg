@@ -32,33 +32,42 @@ export default function AdminDashboard() {
 
     async function checkAdmin() {
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      try {
 
-      if (!user) {
-        router.push('/');
-        return;
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+          router.push('/');
+          return;
+        }
+
+        if (
+          user.email !==
+          'ahmedadel555@auren.com'
+        ) {
+          router.push('/');
+          return;
+        }
+
+        await fetchOrders();
+        await fetchReviews();
+
+      } catch (error) {
+
+        console.log(error);
+
+      } finally {
+
+        setLoadingPage(false);
+
       }
-
-      // ADMIN EMAIL
-      if (
-        user.email !==
-        'ahmedadel555@auren.com'
-      ) {
-        router.push('/');
-        return;
-      }
-
-      await fetchOrders();
-      await fetchReviews();
-
-      setLoadingPage(false);
     }
 
     checkAdmin();
 
-  }, []);
+  }, [router]);
 
   async function fetchOrders() {
 
@@ -167,14 +176,9 @@ export default function AdminDashboard() {
 
   return (
 
-    <main className="min-h-screen bg-[#1a120e] text-white flex flex-col md:flex-row">
-
+    <main className="min-h-screen pt-20 md:pt-0 bg-[#1a120e] text-white flex flex-col md:flex-row">
       {/* SIDEBAR */}
-      <div className="w-full md:w-[260px] bg-[#120c09] border-r border-[#2d211b] p-6">
-
-        <h1 className="text-3xl font-bold mb-10">
-          AUREN
-        </h1>
+      <div className="w-full md:w-[260px] bg-[#120c09] border-b md:border-b-0 md:border-r border-[#2d211b] p-4 md:p-6">
 
         <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible">
 
@@ -182,7 +186,7 @@ export default function AdminDashboard() {
             onClick={() =>
               setTab('overview')
             }
-            className={`whitespace-nowrap w-full text-left px-4 py-3 rounded-xl transition ${
+            className={`whitespace-nowrap px-4 py-3 rounded-xl transition ${
               tab === 'overview'
                 ? 'bg-[#3b2a22]'
                 : 'hover:bg-[#241814]'
@@ -195,7 +199,7 @@ export default function AdminDashboard() {
             onClick={() =>
               setTab('orders')
             }
-            className={`whitespace-nowrap w-full text-left px-4 py-3 rounded-xl transition ${
+            className={`whitespace-nowrap px-4 py-3 rounded-xl transition ${
               tab === 'orders'
                 ? 'bg-[#3b2a22]'
                 : 'hover:bg-[#241814]'
@@ -208,7 +212,7 @@ export default function AdminDashboard() {
             onClick={() =>
               setTab('reviews')
             }
-            className={`whitespace-nowrap w-full text-left px-4 py-3 rounded-xl transition ${
+            className={`whitespace-nowrap px-4 py-3 rounded-xl transition ${
               tab === 'reviews'
                 ? 'bg-[#3b2a22]'
                 : 'hover:bg-[#241814]'
@@ -221,7 +225,7 @@ export default function AdminDashboard() {
             onClick={() =>
               setTab('analytics')
             }
-            className={`whitespace-nowrap w-full text-left px-4 py-3 rounded-xl transition ${
+            className={`whitespace-nowrap px-4 py-3 rounded-xl transition ${
               tab === 'analytics'
                 ? 'bg-[#3b2a22]'
                 : 'hover:bg-[#241814]'
@@ -242,7 +246,7 @@ export default function AdminDashboard() {
 
           <div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">
               Overview
             </h2>
 
@@ -307,13 +311,12 @@ export default function AdminDashboard() {
 
           <div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">
               Orders
             </h2>
 
             <div className="flex flex-col md:flex-row gap-4 mb-8">
 
-              {/* SEARCH */}
               <input
                 type="text"
                 placeholder="Search by customer or phone..."
@@ -326,7 +329,6 @@ export default function AdminDashboard() {
                 className="bg-[#2a1d18] border border-[#3b2a22] rounded-xl px-4 py-3 w-full outline-none"
               />
 
-              {/* FILTER */}
               <select
                 value={statusFilter}
                 onChange={(e) =>
@@ -367,10 +369,10 @@ export default function AdminDashboard() {
 
             <div className="space-y-6">
 
-              {orders.length === 0 && (
+              {filteredOrders.length === 0 && (
 
                 <p className="text-[#b89f8c]">
-                  No orders yet
+                  No orders found
                 </p>
 
               )}
@@ -383,7 +385,6 @@ export default function AdminDashboard() {
                     className="bg-[#2a1d18] rounded-2xl p-4 md:p-6 border border-[#3b2a22]"
                   >
 
-                    {/* TOP */}
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
 
                       <div>
@@ -513,78 +514,6 @@ export default function AdminDashboard() {
 
                     </div>
 
-                    {/* ADDRESS */}
-                    <div className="bg-[#1a120e] rounded-xl p-4 mb-5">
-
-                      <p className="text-sm text-[#b89f8c] mb-1">
-                        Shipping Address
-                      </p>
-
-                      <p className="break-words">
-                        {order.address}
-                      </p>
-
-                      <p className="text-[#b89f8c] mt-1">
-                        {order.city} -{' '}
-                        {
-                          order.governorate
-                        }
-                      </p>
-
-                    </div>
-
-                    {/* ITEMS */}
-                    <div className="space-y-3">
-
-                      {order.items?.map(
-                        (
-                          item: any,
-                          index: number
-                        ) => (
-
-                          <div
-                            key={index}
-                            className="bg-[#1a120e] rounded-xl p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
-                          >
-
-                            <div>
-
-                              <p className="font-medium">
-                                {item.name}
-                              </p>
-
-                              <p className="text-sm text-[#b89f8c]">
-                                Size:{' '}
-                                {item.size}
-                              </p>
-
-                            </div>
-
-                            <div className="text-left sm:text-right">
-
-                              <p>
-                                {
-                                  item.quantity
-                                }{' '}
-                                ×{' '}
-                                {item.price}
-                              </p>
-
-                              <p className="text-[#b89f8c] text-sm">
-                                {item.price *
-                                  item.quantity}{' '}
-                                EGP
-                              </p>
-
-                            </div>
-
-                          </div>
-
-                        )
-                      )}
-
-                    </div>
-
                   </div>
 
                 )
@@ -601,7 +530,7 @@ export default function AdminDashboard() {
 
           <div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">
               Reviews
             </h2>
 
@@ -615,41 +544,29 @@ export default function AdminDashboard() {
 
               )}
 
-              {reviews.map(
-                (review) => (
+              {reviews.map((review) => (
 
-                  <div
-                    key={review.id}
-                    className="bg-[#2a1d18] p-4 md:p-6 rounded-2xl border border-[#3b2a22]"
-                  >
+                <div
+                  key={review.id}
+                  className="bg-[#2a1d18] p-4 md:p-6 rounded-2xl border border-[#3b2a22]"
+                >
 
-                    <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-semibold text-lg md:text-xl">
+                    {review.name}
+                  </h3>
 
-                      <div>
+                  <p className="text-[#b89f8c] mt-1 break-words">
+                    Product:{' '}
+                    {review.product_slug}
+                  </p>
 
-                        <h3 className="font-semibold text-lg md:text-xl">
-                          {review.name}
-                        </h3>
+                  <p className="text-[#e7d7cc] leading-7 break-words mt-4">
+                    {review.text}
+                  </p>
 
-                        <p className="text-[#b89f8c] mt-1 break-words">
-                          Product:{' '}
-                          {
-                            review.product_slug
-                          }
-                        </p>
+                </div>
 
-                      </div>
-
-                    </div>
-
-                    <p className="text-[#e7d7cc] leading-7 break-words">
-                      {review.text}
-                    </p>
-
-                  </div>
-
-                )
-              )}
+              ))}
 
             </div>
 
@@ -662,7 +579,7 @@ export default function AdminDashboard() {
 
           <div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">
               Analytics
             </h2>
 
@@ -680,6 +597,7 @@ export default function AdminDashboard() {
                     <span>
                       Total Orders
                     </span>
+
                     <span>
                       {orders.length}
                     </span>
@@ -689,6 +607,7 @@ export default function AdminDashboard() {
                     <span>
                       Pending Orders
                     </span>
+
                     <span>
                       {pendingOrders}
                     </span>
@@ -698,6 +617,7 @@ export default function AdminDashboard() {
                     <span>
                       Delivered Orders
                     </span>
+
                     <span>
                       {deliveredOrders}
                     </span>
@@ -719,6 +639,7 @@ export default function AdminDashboard() {
                     <span>
                       Total Revenue
                     </span>
+
                     <span>
                       {totalRevenue} EGP
                     </span>
@@ -728,6 +649,7 @@ export default function AdminDashboard() {
                     <span>
                       Total Reviews
                     </span>
+
                     <span>
                       {reviews.length}
                     </span>
