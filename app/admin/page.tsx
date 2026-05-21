@@ -1,4 +1,3 @@
-
 'use client';
 
 import { toast } from 'sonner';
@@ -27,6 +26,39 @@ export default function AdminDashboard() {
 
   const [statusFilter, setStatusFilter] =
     useState('all');
+
+  const [productName, setProductName] =
+    useState('');
+
+  const [productPrice, setProductPrice] =
+    useState('');
+
+  const [productDescription, setProductDescription] =
+    useState('');
+
+  const [fabric, setFabric] =
+    useState('');
+
+  const [fit, setFit] =
+    useState('');
+
+  const [styling, setStyling] =
+    useState('');
+
+  const [sizes, setSizes] =
+    useState('');
+
+  const [colors, setColors] =
+   useState('');
+
+  const [mainImage, setMainImage] =
+   useState<File | null>(null);
+
+  const [hoverImage, setHoverImage] =
+   useState<File | null>(null);
+
+  const [galleryImages, setGalleryImages] =
+   useState<FileList | null>(null);
 
   useEffect(() => {
 
@@ -108,7 +140,138 @@ export default function AdminDashboard() {
       setReviews(data);
     }
   }
+  async function uploadImage(file: File) {
 
+   const fileName =
+    `${Date.now()}-${file.name}`;
+
+   const { error } =
+     await supabase.storage
+      .from('products')
+      .upload(fileName, file);
+
+  if (error) {
+    console.log(error);
+    return null;
+  }
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage
+    .from('products')
+    .getPublicUrl(fileName);
+
+  return publicUrl;
+}
+async function addProduct() {
+
+  try {
+
+    if (
+      !mainImage ||
+      !hoverImage
+    ) {
+      toast.error(
+        'Upload images first'
+      );
+      return;
+    }
+
+    const mainImageUrl =
+      await uploadImage(mainImage);
+
+    const hoverImageUrl =
+      await uploadImage(hoverImage);
+
+    const galleryUrls = [];
+
+    if (galleryImages) {
+
+      for (
+        let i = 0;
+        i < galleryImages.length;
+        i++
+      ) {
+
+        const url =
+          await uploadImage(
+            galleryImages[i]
+          );
+
+        if (url) {
+          galleryUrls.push(url);
+        }
+      }
+    }
+
+    const slug =
+      productName
+        .toLowerCase()
+        .replaceAll(' ', '-');
+
+    const { error } =
+      await supabase
+        .from('products')
+        .insert({
+
+          name: productName,
+
+          slug,
+
+          price: Number(
+            productPrice
+          ),
+
+          description:
+            productDescription,
+
+          fabric,
+
+          fit,
+
+          styling,
+
+          main_image:
+            mainImageUrl,
+
+          hover_image:
+            hoverImageUrl,
+
+          gallery_images:
+            galleryUrls,
+
+          sizes:
+            sizes.split(','),
+
+          colors:
+            colors.split(','),
+
+        });
+
+    if (error) {
+
+      console.log(error);
+
+      toast.error(
+        'Failed to add product'
+      );
+
+      return;
+    }
+
+    toast.success(
+      'Product added successfully'
+    );
+
+  } catch (error) {
+
+    console.log(error);
+
+    toast.error(
+      'Something went wrong'
+    );
+  }
+}
   const totalRevenue = orders.reduce(
     (sum, order) =>
       sum +
@@ -177,6 +340,7 @@ export default function AdminDashboard() {
   return (
 
     <main className="min-h-screen pt-20 md:pt-0 bg-[#1a120e] text-white flex flex-col md:flex-row">
+
       {/* SIDEBAR */}
       <div className="w-full md:w-[260px] bg-[#120c09] border-b md:border-b-0 md:border-r border-[#2d211b] p-4 md:p-6">
 
@@ -233,6 +397,19 @@ export default function AdminDashboard() {
           >
             Analytics
           </button>
+          <button
+  onClick={() =>
+    setTab('products')
+  }
+  className={`whitespace-nowrap px-4 py-3 rounded-xl transition ${
+    tab === 'products'
+      ? 'bg-[#3b2a22]'
+      : 'hover:bg-[#241814]'
+  }`}
+>
+  Products
+</button>
+           
 
         </div>
 
@@ -514,6 +691,127 @@ export default function AdminDashboard() {
 
                     </div>
 
+                    {/* FULL ORDER INFO */}
+                    <div className="bg-[#1a120e] rounded-2xl p-4 md:p-6 space-y-4">
+
+                      <div>
+                        <p className="text-[#b89f8c] text-sm mb-1">
+                          Address
+                        </p>
+
+                        <p className="break-words">
+                          {order.address}
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div>
+                          <p className="text-[#b89f8c] text-sm mb-1">
+                            City
+                          </p>
+
+                          <p>
+                            {order.city}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-[#b89f8c] text-sm mb-1">
+                            Governorate
+                          </p>
+
+                          <p>
+                            {order.governorate}
+                          </p>
+                        </div>
+
+                      </div>
+
+                      {order.notes && (
+
+                        <div>
+                          <p className="text-[#b89f8c] text-sm mb-1">
+                            Notes
+                          </p>
+
+                          <p className="break-words">
+                            {order.notes}
+                          </p>
+                        </div>
+
+                      )}
+
+                      <div>
+
+                        <p className="text-[#b89f8c] text-sm mb-4">
+                          Ordered Items
+                        </p>
+
+                        <div className="space-y-4">
+
+                          {order.items?.map(
+                            (
+                              item: any,
+                              index: number
+                            ) => (
+
+                              <div
+                                key={index}
+                                className="bg-[#241814] rounded-xl p-4"
+                              >
+
+                                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                                  <div>
+
+                                    <p className="font-semibold text-lg">
+                                      {item.name}
+                                    </p>
+
+                                    <div className="space-y-1 mt-2 text-sm text-[#b89f8c]">
+
+                                      <p>
+                                        Size: {item.size}
+                                      </p>
+
+                                      <p>
+                                        Color: {item.color || 'N/A'}
+                                      </p>
+
+                                      <p>
+                                        Quantity: {item.quantity}
+                                      </p>
+
+                                      <p>
+                                        Price: {item.price} EGP
+                                      </p>
+
+                                    </div>
+
+                                  </div>
+
+                                  <div className="text-left md:text-right">
+
+                                    <p className="text-xl font-bold">
+                                      {item.price * item.quantity} EGP
+                                    </p>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                            )
+                          )}
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
                   </div>
 
                 )
@@ -664,6 +962,206 @@ export default function AdminDashboard() {
           </div>
 
         )}
+        {/* PRODUCTS */}
+        {tab === 'products' && (
+
+  <div>
+
+    <h2 className="text-3xl font-bold mb-8">
+      Add Product
+    </h2>
+
+    <div className="bg-[#2a1d18] p-6 rounded-2xl space-y-4">
+
+      <input
+        type="text"
+        placeholder="Product Name"
+        value={productName}
+        onChange={(e) =>
+          setProductName(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <input
+        type="number"
+        placeholder="Price"
+        value={productPrice}
+        onChange={(e) =>
+          setProductPrice(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <textarea
+        placeholder="Description"
+        value={productDescription}
+        onChange={(e) =>
+          setProductDescription(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none min-h-[120px]"
+      />
+
+      <input
+        type="text"
+        placeholder="Fabric"
+        value={fabric}
+        onChange={(e) =>
+          setFabric(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="Fit"
+        value={fit}
+        onChange={(e) =>
+          setFit(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="Styling"
+        value={styling}
+        onChange={(e) =>
+          setStyling(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="Sizes example: S,M,L"
+        value={sizes}
+        onChange={(e) =>
+          setSizes(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="Colors example: White,Black"
+        value={colors}
+        onChange={(e) =>
+          setColors(
+            e.target.value
+          )
+        }
+        className="w-full bg-[#1a120e] p-4 rounded-xl outline-none"
+      />
+
+      <div>
+
+        <p className="mb-2">
+          Main Image
+        </p>
+
+        <label
+  htmlFor="mainImage"
+  className="mb-2 block"
+>
+  Main Image
+</label>
+
+<input
+  id="mainImage"
+  type="file"
+  accept="image/*"
+  onChange={(e) =>
+    setMainImage(
+      e.target.files?.[0] ||
+      null
+    )
+  }
+/>
+      </div>
+
+      <div>
+
+        <p className="mb-2">
+          Hover Image
+        </p>
+
+        <label
+  htmlFor="hoverImage"
+  className="mb-2 block"
+>
+  Hover Image
+</label>
+
+<input
+  id="hoverImage"
+  type="file"
+  accept="image/*"
+  onChange={(e) =>
+    setHoverImage(
+      e.target.files?.[0] ||
+      null
+    )
+  }
+/>
+
+      </div>
+
+      <div>
+
+        <p className="mb-2">
+          Gallery Images
+        </p>
+
+        <label
+  htmlFor="galleryImages"
+  className="mb-2 block"
+>
+  Gallery Images
+</label>
+
+<input
+  id="galleryImages"
+  type="file"
+  multiple
+  accept="image/*"
+  onChange={(e) =>
+    setGalleryImages(
+      e.target.files
+    )
+  }
+/>
+
+      </div>
+
+      <button
+        onClick={addProduct}
+        className="bg-white text-black px-6 py-4 rounded-xl font-semibold"
+      >
+        Add Product
+      </button>
+
+    </div>
+
+  </div>
+
+)}
+
+
 
       </div>
 
