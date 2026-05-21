@@ -842,29 +842,78 @@ async function addProduct() {
 
               )}
 
-              {reviews.map((review) => (
+              
+{reviews.map((review) => (
 
-                <div
-                  key={review.id}
-                  className="bg-[#2a1d18] p-4 md:p-6 rounded-2xl border border-[#3b2a22]"
-                >
+  <div
+    key={review.id}
+    className="bg-[#2a1d18] p-4 md:p-6 rounded-2xl border border-[#3b2a22]"
+  >
 
-                  <h3 className="font-semibold text-lg md:text-xl">
-                    {review.name}
-                  </h3>
+    <div className="flex items-start justify-between gap-4">
 
-                  <p className="text-[#b89f8c] mt-1 break-words">
-                    Product:{' '}
-                    {review.product_slug}
-                  </p>
+      <div>
 
-                  <p className="text-[#e7d7cc] leading-7 break-words mt-4">
-                    {review.text}
-                  </p>
+        <h3 className="font-semibold text-lg md:text-xl">
+          {review.name}
+        </h3>
 
-                </div>
+        <p className="text-[#b89f8c] mt-1 break-words">
+          Product: {review.product_slug}
+        </p>
 
-              ))}
+      </div>
+
+      <button
+        onClick={async () => {
+
+          const confirmDelete =
+            confirm(
+              'Delete this review?'
+            );
+
+          if (!confirmDelete) return;
+
+          const { error } =
+            await supabase
+              .from('reviews')
+              .delete()
+              .eq('id', review.id);
+
+          if (error) {
+
+            console.log(error);
+
+            toast.error(
+              'Failed to delete review'
+            );
+
+            return;
+          }
+
+          toast.success(
+            'Review deleted'
+          );
+
+          fetchReviews();
+
+        }}
+        className="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-xl text-sm font-semibold"
+      >
+        Delete
+      </button>
+
+    </div>
+
+    <p className="text-[#e7d7cc] leading-7 break-words mt-4">
+      {review.text}
+    </p>
+
+  </div>
+
+))}
+
+
 
             </div>
 

@@ -106,7 +106,6 @@ export default function ProductPage({
       .from("reviews")
       .insert([
         {
-          user_id: user.id,
           product_slug: params.slug,
           name: reviewName,
           text: reviewText,
