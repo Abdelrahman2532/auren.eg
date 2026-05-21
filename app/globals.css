@@ -39,17 +39,19 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  @media (hover: none) and (pointer: coarse) {
+
   body {
-    background-color: #1A120E;
-    color: #F3EEE8;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow-x: hidden;
     cursor: none;
   }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     cursor: none !important;
   }
+
+}
 
   ::selection {
     background-color: #6B4B3E;
