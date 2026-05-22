@@ -3,12 +3,11 @@
 import { useCartStore } from '@/lib/cart-store';
 import Link from 'next/link';
 import { Minus, Plus, X, ShoppingBag, ArrowRight } from 'lucide-react';
-import Image from 'next/image';
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, total } = useCartStore();
-  const cartTotal = total();
-  const shipping = cartTotal >= 300 ? 0 : 25;
+  const { items, removeItem, updateQuantity, discountedTotal } = useCartStore();
+  const { subtotal, discountAmount, total, discount } = discountedTotal();
+  const shipping = total >= 300 ? 0 : 25;
 
   return (
     <div className="pt-16 min-h-screen">
@@ -32,11 +31,7 @@ export default function CartPage() {
                 {items.map((item) => (
                   <div key={`${item.id}-${item.size}`} className="flex gap-6 py-6 border-b border-brown-soft/20">
                     <div className="w-24 h-32 bg-brown-soft/20 flex-shrink-0 overflow-hidden">
-                      <img
-                      src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-start justify-between">
@@ -74,6 +69,13 @@ export default function CartPage() {
                   </div>
                 ))}
               </div>
+
+              {/* Discount hint */}
+              {items.reduce((s, i) => s + i.quantity, 0) < 2 && (
+                <p className="text-off-white/30 text-2xs mt-4 tracking-wide">
+                  Add 1 more item to unlock 15% off
+                </p>
+              )}
             </div>
 
             {/* Summary */}
@@ -83,8 +85,21 @@ export default function CartPage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-off-white/50">Subtotal</span>
-                    <span className="text-off-white">${cartTotal.toFixed(2)}</span>
+                    <span className="text-off-white">${subtotal.toFixed(2)}</span>
                   </div>
+
+                  {/* Discount row */}
+                  {discount.label && (
+                    <div className="flex justify-between">
+                      <span className={discount.isFlash ? "text-amber-400 text-xs" : "text-green-400 text-xs"}>
+                        {discount.label}
+                      </span>
+                      <span className={discount.isFlash ? "text-amber-400" : "text-green-400"}>
+                        −${discountAmount.toFixed(2)}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="flex justify-between">
                     <span className="text-off-white/50">Shipping</span>
                     <span className="text-off-white">{shipping === 0 ? 'Free' : `$${shipping}`}</span>
@@ -94,9 +109,10 @@ export default function CartPage() {
                   )}
                   <div className="border-t border-brown-soft/20 pt-3 flex justify-between font-semibold">
                     <span className="text-off-white">Total</span>
-                    <span className="text-off-white text-lg">${(cartTotal + shipping).toFixed(2)}</span>
+                    <span className="text-off-white text-lg">${(total + shipping).toFixed(2)}</span>
                   </div>
                 </div>
+
                 <Link
                   href="/checkout"
                   className="mt-8 w-full bg-off-white text-espresso py-4 auren-label flex items-center justify-center gap-3 hover:bg-off-white/90 transition-colors"

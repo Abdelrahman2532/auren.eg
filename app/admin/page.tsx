@@ -594,7 +594,11 @@ async function addProduct() {
                           EGP
 
                         </p>
-
+{order.discount_label && (
+  <p className="text-sm text-amber-400">
+    Discount: {order.discount_label} (-{order.discount_amount} EGP)
+  </p>
+)}
                         <p className="text-2xl font-bold">
                           {order.total_price ||
                             order.total}{' '}

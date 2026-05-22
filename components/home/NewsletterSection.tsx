@@ -38,7 +38,7 @@ export default function NewsletterSection() {
 
         {status === 'success' ? (
           <div className="border border-brown-accent/40 px-8 py-5 text-off-white/60 text-sm tracking-wider">
-            You're on the list. Welcome to AUREN.
+            You&apos;re on the list. Welcome to AUREN.
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex gap-0 max-w-[480px] mx-auto">

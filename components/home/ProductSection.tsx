@@ -221,14 +221,14 @@ export default function ProductSection() {
                 <img
                   src="/images/black-basic.png"
                   alt="Black Basic Shirt"
-                  className="w-full h-full object-contain transition-opacity duration-500 group-hover:opacity-0"
+                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
                 />
 
                 {/* Hover Image */}
                 <img
                   src="/images/black-basic-model.png"
                   alt="Black Basic Model"
-                  className="w-full h-full object-contain absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  className="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 />
 
               </div>

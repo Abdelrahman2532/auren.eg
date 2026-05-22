@@ -1,7 +1,7 @@
 'use client';
 import { toast } from 'sonner';
 import { useState } from 'react';
-import { useCartStore } from '@/lib/cart-store';
+import { useCartStore, getDiscount } from '@/lib/cart-store';
 import { supabase } from '@/lib/supabase';
 
 export default function CheckoutPage() {
@@ -12,6 +12,10 @@ export default function CheckoutPage() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+const discount = getDiscount(itemCount);
+const discountAmount = total * discount.rate;
+const totalAfterDiscount = total - discountAmount;
 
   // FORM STATES
   const [email, setEmail] = useState('');
@@ -82,8 +86,7 @@ else if (
   shippingPrice = 110;
 }
 
-  const finalTotal = total + shippingPrice;
-
+const finalTotal = totalAfterDiscount + shippingPrice;
   // COMPLETE ORDER
   async function handleOrder() {
 
@@ -134,7 +137,9 @@ else if (
             total_price: finalTotal,
 
             shipping_price: shippingPrice,
-
+            subtotal: total,
+            discount_label: discount.label,
+            discount_amount: discountAmount,
             payment_method: 'cash',
             payment_status: 'pending',
             order_status: 'new',
@@ -560,6 +565,18 @@ else if (
               </span>
 
             </div>
+
+            {/* DISCOUNT */}
+{discount.label && (
+  <div className="flex justify-between">
+    <span className={discount.isFlash ? 'text-amber-400 text-sm' : 'text-green-400 text-sm'}>
+      {discount.label}
+    </span>
+    <span className={discount.isFlash ? 'text-amber-400' : 'text-green-400'}>
+      -{discountAmount} L.E
+    </span>
+  </div>
+)}
 
             {/* SHIPPING */}
             <div className="flex justify-between text-[#b8a89b]">

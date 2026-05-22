@@ -10,7 +10,7 @@ const products = {
   "white-henley": {
     name: "White Henley",
     price: 600,
-
+    fabric: "Soft Ribbed",
     mainImage: "/images/white-henley.jpg",
 
     gallery: [
@@ -22,7 +22,7 @@ const products = {
   "black-henley": {
     name: "Black Henley",
     price: 600,
-
+    fabric: "Soft Ribbed",
     mainImage: "/images/black-henley.jpg",
 
     gallery: [
@@ -33,6 +33,7 @@ const products = {
    "grey-henley": {
     name: "Grey Henley",
     price: 600,
+    fabric: "Soft Ribbed",
 
     mainImage: "/images/grey-henley.png",
 
@@ -44,7 +45,7 @@ const products = {
   "white-basic": {
     name: "White Basic",
     price: 600,
-
+    fabric: "Premium Interlock",
     mainImage: "/images/white-basic.png",
 
     gallery: [
@@ -55,7 +56,7 @@ const products = {
   "black-basic": {
     name: "Black Basic",
     price: 600,
-
+    fabric: "Premium Interlock",
     mainImage: "/images/black-basic.png",
 
     gallery: [
@@ -385,7 +386,7 @@ export default function ProductPage({
                   <span className="font-semibold text-black">
                     Fabric :
                   </span>{" "}
-                  soft ribbed
+                  {product.fabric}
                 </p>
 
                 <p>
