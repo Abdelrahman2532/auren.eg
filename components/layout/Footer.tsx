@@ -8,8 +8,7 @@ export default function Footer() {
   const [showPolicy, setShowPolicy] = useState(false);
 
   return (
-    <footer className="bg-[#120b08] text-white px-6 py-20 mt-20 border-t border-white/5">
-
+<footer className="bg-[#120b08] text-white px-6 py-20 mt-20 border-t-2 border-[#3b2a22]">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-16">
 
         {/* BRAND */}
