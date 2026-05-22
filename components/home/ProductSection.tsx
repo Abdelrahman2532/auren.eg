@@ -210,7 +210,7 @@ export default function ProductSection() {
               </div>
             </div>
           </Link>
-        </div>
+        
         {/* Black Basic Shirt */}
           <Link href="/products/black-basic">
             <div className="bg-[#111] p-3 md:p-5 rounded-2xl group">
@@ -221,14 +221,14 @@ export default function ProductSection() {
                 <img
                   src="/images/black-basic.png"
                   alt="Black Basic Shirt"
-                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                  className="w-full h-full object-contain transition-opacity duration-500 group-hover:opacity-0"
                 />
 
                 {/* Hover Image */}
                 <img
                   src="/images/black-basic-model.png"
                   alt="Black Basic Model"
-                  className="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  className="w-full h-full object-contain absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 />
 
               </div>
@@ -258,6 +258,7 @@ export default function ProductSection() {
               </div>
             </div>
           </Link>
+        </div>
            </div>
     </section>
   );
