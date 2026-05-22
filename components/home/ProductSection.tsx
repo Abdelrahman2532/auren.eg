@@ -115,9 +115,150 @@ export default function ProductSection() {
               </div>
             </div>
           </Link>
+          {/* Grey Shirt */}
+          <Link href="/products/grey-henley">
+            <div className="bg-[#111] p-3 md:p-5 rounded-2xl group">
 
+              <div className="relative overflow-hidden rounded-xl aspect-[3/4]">
+
+                {/* Original Image */}
+                <img
+                  src="/images/grey-henley.png"
+                  alt="Grey Henley Shirt"
+                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                />
+
+                {/* Hover Image */}
+                <img
+                  src="/images/grey-model.png"
+                  alt="Grey Henley Model"
+                  className="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                />
+
+              </div>
+
+              <h3 className="text-lg md:text-xl font-semibold mt-4 mb-2">
+                Grey Henley
+              </h3>
+
+              <p className="text-white/70 mb-4 text-sm md:text-base">
+                600 L.E
+              </p>
+
+              <div className="flex gap-2 md:gap-3">
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  S
+                </span>
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  M
+                </span>
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  L
+                </span>
+
+              </div>
+            </div>
+          </Link>
+
+{/* White Basic Shirt */}
+          <Link href="/products/white-basic">
+            <div className="bg-[#111] p-3 md:p-5 rounded-2xl group">
+
+              <div className="relative overflow-hidden rounded-xl aspect-[3/4]">
+
+                {/* Original Image */}
+                <img
+                  src="/images/white-basic.png"
+                  alt="White Basic Shirt"
+                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                />
+
+                {/* Hover Image */}
+                <img
+                  src="/images/white-basic-model.png"
+                  alt="White Basic Model"
+                  className="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                />
+
+              </div>
+
+              <h3 className="text-lg md:text-xl font-semibold mt-4 mb-2">
+                White Basic
+              </h3>
+
+              <p className="text-white/70 mb-4 text-sm md:text-base">
+                600 L.E
+              </p>
+
+              <div className="flex gap-2 md:gap-3">
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  S
+                </span>
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  M
+                </span>
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  L
+                </span>
+
+              </div>
+            </div>
+          </Link>
         </div>
-      </div>
+        {/* Black Basic Shirt */}
+          <Link href="/products/black-basic">
+            <div className="bg-[#111] p-3 md:p-5 rounded-2xl group">
+
+              <div className="relative overflow-hidden rounded-xl aspect-[3/4]max-h-[500px]">
+
+                {/* Original Image */}
+                <img
+                  src="/images/black-basic.png"
+                  alt="Black Basic Shirt"
+                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                />
+
+                {/* Hover Image */}
+                <img
+                  src="/images/black-basic-model.png"
+                  alt="Black Basic Model"
+                  className="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                />
+
+              </div>
+
+              <h3 className="text-lg md:text-xl font-semibold mt-4 mb-2">
+                Black Basic
+              </h3>
+
+              <p className="text-white/70 mb-4 text-sm md:text-base">
+                600 L.E
+              </p>
+
+              <div className="flex gap-2 md:gap-3">
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  S
+                </span>
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  M
+                </span>
+
+                <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">
+                  L
+                </span>
+
+              </div>
+            </div>
+          </Link>
+           </div>
     </section>
   );
 }

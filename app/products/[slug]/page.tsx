@@ -30,6 +30,39 @@ const products = {
       "/images/black-model-2.jpg",
     ],
   },
+   "grey-henley": {
+    name: "Grey Henley",
+    price: 600,
+
+    mainImage: "/images/grey-henley.png",
+
+    gallery: [
+      "/images/grey-model-1.png",
+      "/images/grey-model-2.png",
+    ],
+  },
+  "white-basic": {
+    name: "White Basic",
+    price: 600,
+
+    mainImage: "/images/white-basic.png",
+
+    gallery: [
+      "/images/white-basic-model-1.png",
+      "/images/white-basic-model-2.jpg",
+    ],
+  },
+  "black-basic": {
+    name: "Black Basic",
+    price: 600,
+
+    mainImage: "/images/black-basic.png",
+
+    gallery: [
+      "/images/black-basic-model-1.png",
+      "/images/black-basic-model-2.png",
+    ],
+  },
 };
 
 export default function ProductPage({

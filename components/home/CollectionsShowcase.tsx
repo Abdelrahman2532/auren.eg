@@ -30,6 +30,27 @@ export default async function CollectionsShowcase() {
     description: '600 L.E • Sizes S / M / L',
     cover_image: '/images/black-henley.jpg',
   },
+   {
+    id: '3',
+    name: 'Grey Henley Shirt',
+    slug: 'grey-henley',
+    description: '600 L.E • Sizes S / M / L',
+    cover_image: '/images/grey-henley.png',
+  },
+  {
+    id: '4',
+    name: 'White Basic Shirt',
+    slug: 'white-basic',
+    description: '600 L.E • Sizes S / M / L',
+    cover_image: '/images/white-basic.png',
+  },
+  {
+    id: '5',
+    name: 'Black Basic Shirt',
+    slug: 'black-basic',
+    description: '600 L.E • Sizes S / M / L',
+    cover_image: '/images/black-basic.png',
+  },
   ];
 
   const items = collections.length > 0 ? collections : fallbackCollections;
