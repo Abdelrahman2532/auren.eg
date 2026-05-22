@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-
+import FlashSalePopup from '@/components/FlashSalePopup';
 const heroImages = [
   '/images/hero.jpg',
 ];
@@ -158,6 +158,7 @@ export default function HeroSection() {
         <div className="w-px h-12 bg-gradient-to-b from-off-white/30 to-transparent" />
 
       </div>
+      <FlashSalePopup />
     </section>
   );
 }
