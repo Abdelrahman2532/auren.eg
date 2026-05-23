@@ -72,7 +72,7 @@ export default function ProductSection() {
                 <p className="text-white/70 mb-4 text-sm md:text-base">600 L.E</p>
                 <div className="flex gap-2 md:gap-3">
                   <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">S</span>
-                  <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">M</span>
+                  <span className="relative border border-white/10 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm text-white/20 line-through cursor-not-allowed">M</span>
                   <span className="border border-white/20 px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">L</span>
                 </div>
               </div>

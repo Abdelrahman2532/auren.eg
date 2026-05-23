@@ -5,7 +5,9 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-
+const outOfStock = {
+  "black-henley": ["M"],
+};
 const products = {
   "white-henley": {
     name: "White Henley",
@@ -232,22 +234,30 @@ export default function ProductPage({
 
             <div className="flex gap-4">
 
-              {["S", "M", "L"].map((size) => (
-
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`w-14 h-14 rounded-full border transition-all duration-300 ${
-                    selectedSize === size
-                      ? "bg-black text-white border-black"
-                      : "border-black text-black"
-                  }`}
-                >
-                  {size}
-                </button>
-
-              ))}
-
+              {["S", "M", "L"].map((size) => {
+  const isOutOfStock = outOfStock[params.slug as keyof typeof outOfStock]?.includes(size);
+  return (
+    <button
+      key={size}
+      onClick={() => {
+        if (isOutOfStock) {
+          alert("Out of Stock");
+          return;
+        }
+        setSelectedSize(size);
+      }}
+      className={`w-14 h-14 rounded-full border transition-all duration-300 ${
+        isOutOfStock
+          ? "border-black/20 text-black/20 line-through cursor-not-allowed"
+          : selectedSize === size
+          ? "bg-black text-white border-black"
+          : "border-black text-black"
+      }`}
+    >
+      {size}
+    </button>
+  );
+})}
             </div>
 
           </div>
