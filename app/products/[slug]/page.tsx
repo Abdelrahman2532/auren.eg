@@ -7,6 +7,8 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 const outOfStock = {
   "black-henley": ["M"],
+  "white-henley": ["S", "L"],
+  "grey-henley": ["S"],
 };
 const products = {
   "white-henley": {
