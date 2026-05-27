@@ -3,7 +3,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import FlashSalePopup from '@/components/FlashSalePopup';
 const heroImages = [
   '/images/hero.jpg',
 ];
