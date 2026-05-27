@@ -1,5 +1,5 @@
 "use client";
-
+import TryItCamera from '@/components/TryItCamera';
 import { useCartStore } from "@/lib/cart-store";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -94,6 +94,8 @@ export default function ProductPage({
 
   const [showSizeGuide, setShowSizeGuide] =
     useState(false);
+  
+  const [showTryIt, setShowTryIt] = useState(false);  
 
   const [activeTab, setActiveTab] =
     useState("description");
@@ -345,6 +347,15 @@ export default function ProductPage({
             >
               Buy it now
             </button>
+            {/* TRY IT */}
+<button
+  onClick={() => setShowTryIt(true)}
+  className="w-full border border-black py-4 rounded-full text-lg font-medium hover:bg-black hover:text-white transition"
+>
+  Try it
+</button>
+
+{showTryIt && <TryItCamera onClose={() => setShowTryIt(false)} />}
 
           </div>
 
