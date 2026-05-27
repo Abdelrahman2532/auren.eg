@@ -17,6 +17,7 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'analyzing' | 'done'>('loading');
   const [message, setMessage] = useState('جاري تشغيل الكاميرا...');
   const [result, setResult] = useState('');
+  const [timer, setTimer] = useState(60);
 
   // تشغيل الكاميرا
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
           videoRef.current.srcObject = stream;
           setStatus('ready');
           setMessage('وقف قدام الكاميرا وخلي جسمك كله يظهر');
-          speak('وقف قدام الكاميرا وخلي جسمك كله يظهر في الصورة');
+          speak('أهلاً! عندك 60 ثانية تقف قدام الكاميرا وخلي جسمك كله يظهر في الإطار');
         }
       } catch {
         setMessage('مش قادر يوصل للكاميرا');
@@ -41,6 +42,42 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
       stream?.getTracks().forEach((t) => t.stop());
     };
   }, []);
+
+  // التايمر
+  useEffect(() => {
+    if (status !== 'ready') return;
+
+    if (timer === 0) {
+      captureAndAnalyze();
+      return;
+    }
+
+    // تنبيه صوتي كل 20 ثانية
+    if (timer === 40) {
+      speak('20 ثانية فضلت، تأكد إن جسمك كله ظاهر في الإطار');
+    }
+    if (timer === 20) {
+      speak('20 ثانية فضلت، تأكد إن جسمك كله ظاهر في الإطار');
+    }
+    if (timer === 10) {
+      speak('10 ثواني');
+    }
+    if (timer === 3) {
+      speak('3');
+    }
+    if (timer === 2) {
+      speak('2');
+    }
+    if (timer === 1) {
+      speak('1');
+    }
+
+    const interval = setTimeout(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(interval);
+  }, [timer, status]);
 
   async function captureAndAnalyze() {
     if (!videoRef.current || !canvasRef.current) return;
@@ -73,6 +110,7 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
       setResult('حصل خطأ، حاول تاني');
       speak('حصل خطأ، حاول تاني');
       setStatus('ready');
+      setTimer(60);
     }
   }
 
@@ -105,8 +143,21 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
+        {/* التايمر */}
+        {status === 'ready' && (
+          <div className="absolute top-6 left-0 right-0 flex justify-center">
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center border-2 ${
+              timer <= 10 ? 'border-red-400 bg-red-400/20' : 'border-white/40 bg-black/50'
+            }`}>
+              <span className={`text-2xl font-bold ${timer <= 10 ? 'text-red-400' : 'text-white'}`}>
+                {timer}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Status message */}
-        <div className="absolute bottom-24 left-0 right-0 flex justify-center">
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center">
           <div className="bg-black/70 backdrop-blur-sm px-6 py-3 rounded-full">
             <p className="text-white text-sm text-center">{message}</p>
           </div>
@@ -119,7 +170,13 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
           <p className="text-white/50 text-xs tracking-widest uppercase mb-2">النتيجة</p>
           <p className="text-white leading-7">{result}</p>
           <button
-            onClick={() => { setResult(''); setStatus('ready'); setMessage('وقف قدام الكاميرا وخلي جسمك كله يظهر'); }}
+            onClick={() => {
+              setResult('');
+              setStatus('ready');
+              setTimer(60);
+              setMessage('وقف قدام الكاميرا وخلي جسمك كله يظهر');
+              speak('تمام! عندك 60 ثانية تاني، وقف قدام الكاميرا');
+            }}
             className="mt-4 text-white/40 text-xs underline"
           >
             حاول تاني
@@ -127,18 +184,7 @@ export default function TryItCamera({ onClose }: { onClose: () => void }) {
         </div>
       )}
 
-      {/* Button */}
-      {status === 'ready' && !result && (
-        <div className="px-6 py-6 border-t border-white/10">
-          <button
-            onClick={captureAndAnalyze}
-            className="w-full bg-white text-black py-4 rounded-full font-semibold text-lg hover:bg-white/90 transition"
-          >
-            📸 صورني وحدد مقاسي
-          </button>
-        </div>
-      )}
-
+      {/* analyzing */}
       {status === 'analyzing' && (
         <div className="px-6 py-6 border-t border-white/10 flex justify-center">
           <p className="text-white/50 text-sm">جاري التحليل...</p>
