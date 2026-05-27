@@ -6,15 +6,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function CartDrawer() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, discountedTotal } = useCartStore();
-  const { subtotal, discountAmount, total, discount } = discountedTotal();
+  const { items, isOpen, closeCart, removeItem, updateQuantity, total } = useCartStore();
+  const cartTotal = total();
 
   return (
     <>
+      {/* Backdrop */}
       {isOpen && (
-        <div className="fixed inset-0 bg-espresso/70 backdrop-blur-sm z-[2000]" onClick={closeCart} />
+        <div
+          className="fixed inset-0 bg-espresso/70 backdrop-blur-sm z-[2000]"
+          onClick={closeCart}
+        />
       )}
 
+      {/* Drawer */}
       <div
         className="fixed top-0 right-0 h-full w-full max-w-[420px] bg-brown-main z-[2001] flex flex-col transition-transform duration-500"
         style={{ transform: isOpen ? 'translateX(0)' : 'translateX(100%)' }}
@@ -48,7 +53,13 @@ export default function CartDrawer() {
               {items.map((item) => (
                 <div key={`${item.id}-${item.size}`} className="flex gap-4">
                   <div className="w-20 h-24 bg-brown-soft/30 overflow-hidden flex-shrink-0">
-                    <Image src={item.image} alt={item.name} width={80} height={96} className="w-full h-full object-cover" />
+                    <Image
+                    src={item.image}
+                      alt={item.name}
+                      width={80}
+                      height={96}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-off-white text-xs font-semibold tracking-wide truncate">{item.name}</p>
@@ -87,28 +98,9 @@ export default function CartDrawer() {
           <div className="border-t border-brown-soft/30 px-6 py-6 space-y-4">
             <div className="flex items-center justify-between">
               <span className="auren-label text-off-white/50">Subtotal</span>
-              <span className="text-off-white font-semibold text-sm">${subtotal.toFixed(2)}</span>
+              <span className="text-off-white font-semibold text-sm">${cartTotal.toFixed(2)}</span>
             </div>
-
-            {/* Discount row */}
-            {discount.label && (
-              <div className="flex items-center justify-between">
-                <span className={`text-xs ${discount.isFlash ? 'text-amber-400' : 'text-green-400'}`}>
-                  {discount.label}
-                </span>
-                <span className={`text-sm font-semibold ${discount.isFlash ? 'text-amber-400' : 'text-green-400'}`}>
-                  −${discountAmount.toFixed(2)}
-                </span>
-              </div>
-            )}
-
-            {/* Total after discount */}
-            <div className="flex items-center justify-between border-t border-brown-soft/30 pt-3">
-              <span className="auren-label text-off-white/50">Total</span>
-              <span className="text-off-white font-semibold text-sm">${total.toFixed(2)}</span>
-            </div>
-
-            <p className="text-off-white/30 text-2xs">Shipping calculated at checkout</p>
+            <p className="text-off-white/30 text-2xs">Shipping & taxes calculated at checkout</p>
             <Link
               href="/checkout"
               onClick={closeCart}
