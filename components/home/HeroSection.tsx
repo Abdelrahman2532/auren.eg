@@ -157,7 +157,6 @@ export default function HeroSection() {
         <div className="w-px h-12 bg-gradient-to-b from-off-white/30 to-transparent" />
 
       </div>
-      <FlashSalePopup />
     </section>
   );
 }
