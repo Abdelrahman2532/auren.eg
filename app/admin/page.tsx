@@ -77,7 +77,8 @@ export default function AdminDashboard() {
 
         if (
           user.email !==
-          'ahmedadel555@auren.com'
+          'abdo2019@gmail.com'
+          
         ) {
           router.push('/');
           return;
